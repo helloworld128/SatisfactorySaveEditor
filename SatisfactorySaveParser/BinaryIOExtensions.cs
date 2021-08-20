@@ -82,12 +82,7 @@ namespace SatisfactorySaveParser
 
         public static Vector3 ReadVector3(this BinaryReader reader)
         {
-            return new Vector3()
-            {
-                X = reader.ReadSingle(),
-                Y = reader.ReadSingle(),
-                Z = reader.ReadSingle()
-            };
+            return new Vector3(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
         }
 
         public static void Write(this BinaryWriter writer, Vector3 vec)

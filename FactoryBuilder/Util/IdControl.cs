@@ -16,6 +16,11 @@ namespace FactoryBuilder.Util
 
         public static void Init(SatisfactorySave save)
         {
+            if (hasInit)
+            {
+                return;
+            }
+            hasInit = true;
             var occupiedIds = new HashSet<int>();
             foreach (var obj in save.Entries)
             {
@@ -29,13 +34,15 @@ namespace FactoryBuilder.Util
                     }
                 }
             }
+            availableIds = new Queue<int>();
             for (int i = startFrom; i < int.MaxValue; ++i)
             {
                 availableIds.Enqueue(i);
             }
         }
 
-        static int startFrom = 2147410000;
+        static bool hasInit = false;
+        static readonly int startFrom = 2147410000;
         static Queue<int> availableIds;
     }
 }
