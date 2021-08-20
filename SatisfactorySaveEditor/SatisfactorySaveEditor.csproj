@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationIcon>satisfactorysaveeditorlogo_powershard.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="AsyncAwaitBestPractices, Version=1.0.0.0, Culture=neutral, PublicKeyToken=532360cfd341384d, processorArchitecture=MSIL">
       <HintPath>..\packages\AsyncAwaitBestPractices.4.2.0\lib\netstandard1.0\AsyncAwaitBestPractices.dll</HintPath>

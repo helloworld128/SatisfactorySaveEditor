@@ -24,16 +24,30 @@ namespace SatisfactorySaveParser
             ParentEntityName = reader.ReadLengthPrefixedString();
         }
 
+        public override SaveObject Clone()
+        {
+            using (var buffer = new MemoryStream())
+            {
+                using (var writer = new BinaryWriter(buffer, System.Text.Encoding.UTF8, true))
+                {
+                    SerializeHeader(writer);
+                    SerializeData(writer, 0); // buildVersion is useless
+                }
+                buffer.Seek(0, SeekOrigin.Begin);
+                using (var reader = new BinaryReader(buffer))
+                {
+                    var clone = new SaveComponent(reader);
+                    clone.ParseData((int)buffer.Length, reader, 0);
+                    return clone;
+                }
+            }
+        }
+
         public override void SerializeHeader(BinaryWriter writer)
         {
             base.SerializeHeader(writer);
 
             writer.WriteLengthPrefixedString(ParentEntityName);
-        }
-
-        public override string ToString()
-        {
-            return TypePath;
         }
     }
 }

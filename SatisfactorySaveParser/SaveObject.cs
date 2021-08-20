@@ -45,6 +45,8 @@ namespace SatisfactorySaveParser
             InstanceName = reader.ReadLengthPrefixedString();
         }
 
+        public abstract SaveObject Clone();
+
         public virtual void SerializeHeader(BinaryWriter writer)
         {
             writer.WriteLengthPrefixedString(TypePath);
@@ -64,7 +66,16 @@ namespace SatisfactorySaveParser
 
         public override string ToString()
         {
-            return TypePath;
+            using (var writer = new StringWriter())
+            {
+                writer.WriteLine(InstanceName);
+                foreach (var property in DataFields)
+                {
+                    writer.WriteLine($"  {property.Index}:{property.PropertyName}");
+                    writer.WriteLine($"  {property}");
+                }
+                return writer.ToString();
+            }
         }
     }
 }

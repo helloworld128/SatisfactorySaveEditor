@@ -64,6 +64,26 @@ namespace SatisfactorySaveParser
             WasPlacedInLevel = reader.ReadInt32() == 1;
         }
 
+        public override SaveObject Clone()
+        {
+            using (var buffer = new MemoryStream())
+            {
+                using (var writer = new BinaryWriter(buffer, System.Text.Encoding.UTF8, true))
+                {
+                    SerializeHeader(writer);
+                    SerializeData(writer, 0); // buildVersion is useless
+                }
+                buffer.Seek(0, SeekOrigin.Begin);
+                SaveEntity clone;
+                using (var reader = new BinaryReader(buffer))
+                {
+                    clone = new SaveEntity(reader);
+                    clone.ParseData((int)buffer.Length, reader, 0);
+                    return clone;
+                }
+            }
+        }
+
         public override void SerializeHeader(BinaryWriter writer)
         {
             base.SerializeHeader(writer);
